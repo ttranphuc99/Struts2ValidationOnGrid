@@ -1,0 +1,42 @@
+<!DOCTYPE struts PUBLIC
+"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+"http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+    <!-- Configuration for the default package. -->
+    <package name="default" extends="struts-default" namespace="/">
+        <action name="searchLastname" class="phuctt.actions.SearchAction">
+            <interceptor-ref name="basicStack"/>
+            <interceptor-ref name="chain"/>
+            <result name="success">search.jsp</result>
+            <result name="fail">errorPage.html</result>
+        </action>
+        <action name="updateUser" class="phuctt.actions.UpdateAction">
+            <result name="success" type="redirectAction">
+                <param name="actionName">searchLastname</param>
+                <param name="searchValue">${searchValue}</param>
+            </result>
+            <result name="input" type="chain">
+                <param name="actionName">searchLastname</param>
+                <param name="searchValue">${searchValue}</param>
+                <param name="listUserError">${listUserError}</param>
+            </result>
+            <result name="fail" type="redirect">errorPage.html</result>
+        </action>
+        <action name="login" class="phuctt.actions.LoginAction" method="login">
+            <result name="success">search.jsp</result>
+            <result name="fail" type="redirect">errorPage.html</result>
+        </action>
+        <action name="logout" class="phuctt.actions.LoginAction" method="logout">
+            <result>index.jsp</result>
+        </action>
+        <action name="deleteUser" class="phuctt.actions.DeleteAction">
+            <result name="success" type="redirectAction">
+                <param name="actionName">searchLastname</param>
+                <param name="searchValue">${searchValue}</param>
+            </result>
+            <result name="fail" type="redirect">errorPage.html</result>
+        </action>
+    </package>
+    <constant name="struts.mapper.action.prefix.enabled" value="true"/>
+</struts>
