@@ -55,7 +55,13 @@ public class UpdateAction extends ActionSupport {
 
     @Override
     public void validate() {
-        System.out.println("ahihi" + isAdmin);
+        //in case no admin to be shown in view
+        if (isAdmin == null) {
+            isAdmin = new ArrayList<>(username.size());
+            for (int i = 0; i < username.size(); i++) {
+                isAdmin.add("");
+            }
+        }
         ResourceBundle resource = this.getTexts();
 
         int index = 0;
@@ -89,6 +95,7 @@ public class UpdateAction extends ActionSupport {
                 addFieldError(aUsername + "_lastname", resource.getString("lastname.length"));
                 error = true;
             }
+            System.out.println("ausername: " + aUsername);
             
             if (aUsername.equals(this.isAdmin.get(index))) {
                 role = true;
